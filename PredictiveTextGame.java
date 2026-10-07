@@ -36,14 +36,20 @@ public class PredictiveTextGame {
     public void fillBlanksWithInput(String fileName) {
         //Takes user input and finds brackets takes the words inside and removes brackets. Asks user for a word
         Scanner userInput = new Scanner(System.in);
+
         int i;
         for (i = 0; i < messageText.size(); i++) {
             String brakets = messageText.get(i);
             if (brakets.contains("[") && brakets.contains("]")) {
-                String words = messageText.get(i).replaceAll("[\\[,.?!\\]]", "");
+                String last = "";
+                String words = messageText.get(i).replaceAll("[\\[\\]]", "");
+                if(words.endsWith(",") || words.endsWith("!")|| words.endsWith(".")|| words.endsWith("?")) {
+                    last = words.substring(words.length() - 1);
+                    words = words.replace(last, "");
+                }
                 System.out.println("Enter a/an " + words);
                 String message = userInput.nextLine();
-                messageText.set(i, message + " ");
+                messageText.set(i, message + " " + last);
             }
         }
     }
@@ -58,10 +64,10 @@ public class PredictiveTextGame {
             int maxCount = 40;
             fullCount = fullCount + count;
             if (fullCount < maxCount ) {
-                System.out.print(messageText.get(i) + " ");
+                System.out.print(messageText.get(i) + "");
             }
             while (fullCount > maxCount) {
-                System.out.println(messageText.get(i) + " ");
+                System.out.println(messageText.get(i) + "");
                 fullCount = 0;
             }
         }
